@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>parallax website</title>
+    <style>
+        .parallax {
+            perspective: 1px;
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .parallax-layer {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .parallax-layer-back {
+            transform: translateZ(-1px);
+        }
+
+        .parallax-layer-base {
+            transform: translateZ(0);
+        }
+    </style>
+
+    <script>
+        const parallax = document.querySelector('.parallax');
+        const layers = parallax.children;
+
+        function moveLayers(e) {
+            const initialX = (window.innerWidth / 2) - e.pageX;
+            const initialY = (window.innerHeight / 2) - e.pageY;
+
+            Array.from(layers).forEach((layer, i) => {
+                const divider = i / 100;
+                const positionX = initialX * divider;
+                const positionY = initialY * divider;
+                const bottomPosition = (window.innerHeight / 2) * divider;
+                const image = layer.firstElementChild;
+
+                layer.style.transform = `translate(${positionX}px, ${positionY}px)`;
+                image.style.bottom = `-${bottomPosition}px`;
+            });
+        }
+
+        window.addEventListener('mousemove', moveLayers);
+
+    </script>
+</head>
+
+<body>
+    <div class="parallax">
+        <div class="parallax-layer parallax-layer-back">
+            <!-- Add content for the background layer here -->
+        </div>
+        <div class="parallax-layer parallax-layer-base">
+            <!-- Add content for the base layer here -->
+        </div>
+    </div>
+</body>
+
+</html>
